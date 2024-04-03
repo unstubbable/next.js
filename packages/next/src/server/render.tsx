@@ -1354,6 +1354,7 @@ export async function renderToHTMLImpl(
       (initialStream: ReactReadableStream, suffix?: string) => {
         return continueFizzStream(initialStream, {
           suffix,
+          // @ts-ignore
           inlinedDataStream: serverComponentsInlinedTransformStream?.readable,
           isStaticGeneration: true,
           // this must be called inside bodyResult so appWrappers is

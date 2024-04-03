@@ -8,6 +8,7 @@ import type {
 import type { FetchServerResponseResult } from '../../client/components/router-reducer/fetch-server-response'
 import type { FlightRouterState } from '../../server/app-render/types'
 import React from 'react'
+import type { PendingDeferredRsc } from '../../client/components/router-reducer/ppr-navigations'
 
 export type ChildSegmentMap = Map<string, CacheNode>
 
