@@ -42,3 +42,7 @@ turbopack-binding = { workspace = true, features = ["__turbo_tasks_build"] }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["async_tokio"] }
+
+[[bench]]
+name = "bench"
+harness = false
