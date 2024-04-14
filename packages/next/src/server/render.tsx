@@ -471,11 +471,6 @@ export async function renderToHTMLImpl(
     renderOpts.Component
   const OriginComponent = Component
 
-  let serverComponentsInlinedTransformStream: TransformStream<
-    Uint8Array,
-    Uint8Array
-  > | null = null
-
   const isFallback = !!query.__nextFallback
   const notFoundSrcPage = query.__nextNotFoundSrcPage
 
@@ -1354,7 +1349,7 @@ export async function renderToHTMLImpl(
       (initialStream: ReactReadableStream, suffix?: string) => {
         return continueFizzStream(initialStream, {
           suffix,
-          inlinedDataStream: serverComponentsInlinedTransformStream?.readable,
+          inlinedDataStream: undefined,
           isStaticGeneration: true,
           // this must be called inside bodyResult so appWrappers is
           // up to date when `wrapApp` is called
