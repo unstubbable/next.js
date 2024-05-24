@@ -649,31 +649,28 @@ export async function startCleanStaticServer(dir: string) {
 
 /**
  * Check for content in 1 second intervals timing out after 30 seconds.
- *
- * @param {() => Promise<unknown> | unknown} contentFn
- * @param {RegExp | string | number} regex
- * @param {boolean} hardError
- * @param {number} maxRetries
- * @returns {Promise<boolean>}
  */
-export async function check(
-  contentFn: () => any | Promise<any>,
-  regex: any,
+export async function check<T extends string | number | boolean | void>(
+  contentFn: () => T | Promise<T>,
+  expected?: string | number | boolean | RegExp | { test(content: T): boolean },
   hardError = true,
   maxRetries = 30
-) {
-  let content
-  let lastErr
+): Promise<boolean> {
+  let content: T
+  let lastErr: unknown
 
   for (let tries = 0; tries < maxRetries; tries++) {
     try {
       content = await contentFn()
-      if (typeof regex !== typeof /regex/) {
-        if (regex === content) {
+      if (expected instanceof RegExp) {
+        if (typeof content !== 'undefined' && expected.test(String(content))) {
           return true
         }
-      } else if (regex.test(content)) {
-        // found the content
+      } else if (typeof expected === 'object' && 'test' in expected) {
+        if (expected.test(content)) {
+          return true
+        }
+      } else if (expected === content) {
         return true
       }
       await waitFor(1000)
@@ -682,10 +679,12 @@ export async function check(
       lastErr = err
     }
   }
-  console.error('TIMED OUT CHECK: ', { regex, content, lastErr })
+  console.error('TIMED OUT CHECK: ', { expected, content, lastErr })
 
   if (hardError) {
-    throw new Error('TIMED OUT: ' + regex + '\n\n' + content + '\n\n' + lastErr)
+    throw new Error(
+      'TIMED OUT: ' + expected + '\n\n' + content + '\n\n' + lastErr
+    )
   }
   return false
 }

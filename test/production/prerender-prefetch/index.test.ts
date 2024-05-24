@@ -235,7 +235,7 @@ describe('Prerender prefetch', () => {
           }
           return requests.some((url) => url.includes('/blog/first.json'))
             ? 'success'
-            : requests
+            : JSON.stringify(requests, null, 2)
         }, 'success')
       })
     } else {
