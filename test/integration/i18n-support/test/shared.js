@@ -36,6 +36,16 @@ async function addDefaultLocaleCookie(browser) {
   await browser.refresh()
 }
 
+/**
+ * @param {{
+ *   isDev?: boolean;
+ *   basePath?: string;
+ *   appDir: string;
+ *   appPort: string | number;
+ *   buildPagesDir?: string;
+ *   buildId?: string;
+ * }} ctx
+ */
 export function runTests(ctx) {
   if (ctx.basePath) {
     it('should handle basePath like pathname', async () => {
@@ -2362,9 +2372,12 @@ export function runTests(ctx) {
       for (const locale of nonDomainLocales) {
         const pagePath = join(ctx.buildPagesDir, locale, 'not-found.html')
         const dataPath = join(ctx.buildPagesDir, locale, 'not-found.json')
-        console.log(pagePath)
-        expect(await fs.exists(pagePath)).toBe(!skippedLocales.includes(locale))
-        expect(await fs.exists(dataPath)).toBe(!skippedLocales.includes(locale))
+        expect(await fs.pathExists(pagePath)).toBe(
+          !skippedLocales.includes(locale)
+        )
+        expect(await fs.pathExists(dataPath)).toBe(
+          !skippedLocales.includes(locale)
+        )
       }
     })
   }

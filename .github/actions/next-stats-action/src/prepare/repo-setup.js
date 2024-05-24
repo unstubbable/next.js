@@ -5,7 +5,11 @@ const exec = require('../util/exec')
 const logger = require('../util/logger')
 const execa = require('execa')
 
+/**
+ * @returns {import('next/dist/trace').Span}
+ */
 const mockSpan = () => ({
+  // @ts-expect-error
   traceAsyncFn: (fn) => fn(mockSpan()),
   traceFn: (fn) => fn(mockSpan()),
   traceChild: () => mockSpan(),
@@ -62,7 +66,7 @@ module.exports = (actionInfo) => {
     },
     /**
      * Runs `pnpm pack` on each package in the `packages` folder of the provided `repoDir`
-     * @param {{ repoDir: string, nextSwcVersion: null | string }} options Required options
+     * @param {{ repoDir: string, nextSwcVersion?: null | string, parentSpan?: import('next/dist/trace').Span }} options Required options
      * @returns {Promise<Map<string, string>>} List packages key is the package name, value is the path to the packed tar file.'
      */
     async linkPackages({ repoDir, nextSwcVersion, parentSpan }) {
@@ -105,7 +109,10 @@ module.exports = (actionInfo) => {
             continue
           }
 
-          const packageJson = JSON.parse(fs.readFileSync(packageJsonPath))
+          const packageJson = JSON.parse(
+            fs.readFileSync(packageJsonPath, { encoding: 'utf8' })
+          )
+
           const { name: packageName } = packageJson
 
           pkgDatas.set(packageName, {
@@ -199,7 +206,7 @@ module.exports = (actionInfo) => {
                 return packingSpan
                   .traceChild('handle-package', { packageName })
                   .traceAsyncFn(async (handlePackageSpan) => {
-                    /** @type {null | () => Promise<void>} */
+                    /** @type {null | (() => Promise<void>)} */
                     let cleanup = null
 
                     if (packageName === '@next/swc') {

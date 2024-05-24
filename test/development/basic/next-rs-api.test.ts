@@ -151,7 +151,7 @@ export default () => <div>${text}<Client /></div>;`
 describe('next.rs api', () => {
   let next: NextInstance
   beforeAll(async () => {
-    await trace('setup next instance').traceAsyncFn(async (rootSpan) => {
+    await trace('setup next instance').traceAsyncFn(async () => {
       next = await createNext({
         skipStart: true,
         files: {

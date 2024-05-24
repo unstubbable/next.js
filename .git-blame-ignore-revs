@@ -2,6 +2,12 @@
 # when running `git blame --ignore-revs-file .git-blame-ignore-revs`.
 # https://docs.github.com/en/repositories/working-with-files/using-files/viewing-a-file#ignore-commits-in-the-blame-view
 
+# Format missed files (#7464)
+b3170d264871c0eb5ba70676b57083dba49b084e
+
+# Upgrade to Prettier 2 (#13061)
+86160a5190c50ea315c7ba91d77dfb51c42bc65f
+
 # chore(examples): use default prettier for examples/templates (#60530)
 4466ba436b996263307171d344cca199e8087744
 

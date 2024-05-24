@@ -1,3 +1,4 @@
+// @ts-nocheck This package seems to be unmaintained.
 const { PHASE_PRODUCTION_BUILD } = require('next/constants')
 const { findPagesDir } = require('next/dist/lib/find-pages-dir')
 const loadConfig = require('next/dist/server/config').default

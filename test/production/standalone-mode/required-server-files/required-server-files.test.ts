@@ -245,7 +245,7 @@ describe('required server files', () => {
     },
   ])(
     `should have correct cache-control for $case`,
-    async ({ path, dest, cacheControl }) => {
+    async ({ path, cacheControl }) => {
       const res = await fetchViaHTTP(appPort, path, undefined, {
         redirect: 'manual',
       })

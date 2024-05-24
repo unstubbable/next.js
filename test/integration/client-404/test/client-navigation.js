@@ -26,16 +26,30 @@ export default (context, isProd = false) => {
 
     it('should hard navigate to URL on failing to load bundle', async () => {
       const browser = await webdriver(context.appPort, '/invalid-link')
-      await browser.eval(() => (window.beforeNav = 'hi'))
+      await browser.eval(
+        () =>
+          // @ts-expect-error
+          (window.beforeNav = 'hi')
+      )
       await browser.elementByCss('#to-nonexistent').click()
       await check(() => browser.elementByCss('#errorStatusCode').text(), /404/)
-      expect(await browser.eval(() => window.beforeNav)).not.toBe('hi')
+      expect(
+        await browser.eval(
+          () =>
+            // @ts-expect-error
+            window.beforeNav
+        )
+      ).not.toBe('hi')
     })
 
     if (isProd) {
       it('should hard navigate to URL on failing to load missing bundle', async () => {
         const browser = await webdriver(context.appPort, '/to-missing-link')
-        await browser.eval(() => (window.beforeNav = 'hi'))
+        await browser.eval(
+          () =>
+            // @ts-expect-error
+            (window.beforeNav = 'hi')
+        )
         expect(
           await browser.eval(() =>
             document.querySelector('script[src*="pages/missing"]')
@@ -50,7 +64,13 @@ export default (context, isProd = false) => {
         ).toBeTruthy()
         await browser.elementByCss('#to-missing').click()
         await waitFor(2000)
-        expect(await browser.eval(() => window.beforeNav)).not.toBe('hi')
+        expect(
+          await browser.eval(
+            () =>
+              // @ts-expect-error
+              window.beforeNav
+          )
+        ).not.toBe('hi')
         await check(() => browser.elementByCss('#missing').text(), /poof/)
       })
     }

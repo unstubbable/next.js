@@ -931,7 +931,7 @@ describe('basePath', () => {
       const browser = await webdriver(next.url, `${basePath}/hello?query=true`)
       try {
         await browser.eval('window.itdidnotrefresh = "hello"')
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve) => {
           // Timeout of EventSource created in setupPing()
           // (on-demand-entries-utils.js) is 5000 ms (see #13132, #13560)
           setTimeout(resolve, isDev ? 10000 : 1000)
@@ -957,7 +957,7 @@ describe('basePath', () => {
       const browser = await webdriver(next.url, `${basePath}?query=true`)
       try {
         await browser.eval('window.itdidnotrefresh = "hello"')
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve) => {
           // Timeout of EventSource created in setupPing()
           // (on-demand-entries-utils.js) is 5000 ms (see #13132, #13560)
           setTimeout(resolve, isDev ? 10000 : 1000)

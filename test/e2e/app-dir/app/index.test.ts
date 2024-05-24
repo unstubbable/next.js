@@ -1666,7 +1666,7 @@ describe('app dir - basic', () => {
       )
       const expectedHrefs = new Set(['/test1.js', '/test2.js', '/test3.js'])
       expect(scriptPreloads.length).toBe(3)
-      scriptPreloads.each((i, el) => {
+      scriptPreloads.each((_i, el) => {
         expect(expectedHrefs.has(el.attribs.href)).toBe(true)
         expectedHrefs.delete(el.attribs.href)
       })

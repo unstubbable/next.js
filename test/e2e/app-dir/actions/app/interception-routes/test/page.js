@@ -1,5 +1,5 @@
 export default function TestPage() {
-  async function action(data) {
+  async function action() {
     'use server'
 
     console.log('Action Submitted (Page)')

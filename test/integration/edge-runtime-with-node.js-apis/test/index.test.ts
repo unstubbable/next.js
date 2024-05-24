@@ -127,9 +127,7 @@ Learn more: https://nextjs.org/docs/api-reference/edge-runtime`)
       })
 
       it.each(
-        [...unsupportedFunctions, ...unsupportedClasses].map((api, index) => ({
-          api,
-        }))
+        [...unsupportedFunctions, ...unsupportedClasses].map((api) => ({ api }))
       )(`warns for $api during build`, ({ api }) => {
         expect(buildResult.stderr).toContain(`A Node.js API is used (${api}`)
       })

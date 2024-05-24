@@ -286,7 +286,7 @@ describe('Client Navigation rendering', () => {
 
       it('should should not contain a page script in a 404 page', async () => {
         const $ = await get$('/non-existent')
-        $('script[src]').each((index, element) => {
+        $('script[src]').each((_index, element) => {
           const src = $(element).attr('src')
           if (src.includes('/non-existent')) {
             throw new Error('Page includes page script')

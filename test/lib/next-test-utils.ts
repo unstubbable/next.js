@@ -629,7 +629,7 @@ export async function startStaticServer(
   app.use(express.static(dir))
 
   if (notFoundFile) {
-    app.use((req, res) => {
+    app.use((_req, res) => {
       createReadStream(notFoundFile).pipe(res)
     })
   }

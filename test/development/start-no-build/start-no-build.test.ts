@@ -9,7 +9,7 @@ describe('next start without next build', () => {
     })
 
     await next.start()
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve) => {
       next.on('stderr', (msg) => {
         if (msg.includes('Could not find a production build in the')) {
           resolve()

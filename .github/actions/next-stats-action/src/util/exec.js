@@ -34,7 +34,7 @@ exec.spawn = function spawn(command = '', opts = {}) {
   return child
 }
 
-exec.spawnPromise = function spawnPromise(command = '', opts = {}) {
+exec.spawnPromise = function spawnPromise(command = '') {
   return new Promise((resolve, reject) => {
     const child = exec.spawn(command)
     child.on('exit', (code, signal) => {
