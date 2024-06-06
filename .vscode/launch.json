@@ -8,14 +8,14 @@
       "id": "appDirname",
       "type": "promptString",
       "description": "Enter an app dirname from examples or test/e2e",
-      "default": "examples/hello-world"
+      "default": "test/e2e/app-dir/parallel-routes-and-interception"
     },
     {
       "id": "nextCommand",
       "type": "pickString",
       "description": "Select the next command",
       "options": ["dev", "build", "start"],
-      "default": "dev"
+      "default": "build"
     },
     {
       "id": "nextTestMode",

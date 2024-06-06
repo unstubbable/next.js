@@ -4,7 +4,9 @@ module.exports = {
   webpack(cfg, { isServer, nextRuntime }) {
     console.log(cfg.entry)
     const origEntry = cfg.entry
+    // console.trace('overwriting entry')
     cfg.entry = async () => {
+      // console.trace('calling origEntry')
       const origEntries = await origEntry()
 
       if (isServer && nextRuntime === 'nodejs') {
@@ -13,7 +15,7 @@ module.exports = {
           path.join(__dirname, 'lib/get-data.js'),
           ...curEntry,
         ]
-        console.log(origEntries)
+        // console.trace('origEntries', origEntries)
       }
       return origEntries
     }

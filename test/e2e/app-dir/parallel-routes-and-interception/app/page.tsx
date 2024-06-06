@@ -3,9 +3,13 @@ import React from 'react'
 
 export default function Page() {
   return (
-    <>
-      <p>hello world</p>
-      <Link href="/nested">to nested</Link>
-    </>
+    <ul>
+      <li>
+        <Link href="/collision">collision</Link>
+      </li>
+      <li>
+        <Link href="/other">other</Link>
+      </li>
+    </ul>
   )
 }

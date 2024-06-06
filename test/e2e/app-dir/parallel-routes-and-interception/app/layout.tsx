@@ -1,17 +1,13 @@
 import React from 'react'
+import './style.css'
 
-export default function Root({
-  children,
-  slot,
-}: {
-  children: React.ReactNode
-  slot: React.ReactNode
-}) {
+export default function Root({ children }) {
   return (
     <html>
       <body>
-        {children}
-        {slot}
+        <div className="parallel" title="children">
+          {children}
+        </div>
       </body>
     </html>
   )

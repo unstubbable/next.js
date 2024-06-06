@@ -551,11 +551,26 @@ const nextAppLoader: AppLoader = async function nextAppLoader() {
   const resolveParallelSegments = (
     pathname: string
   ): [string, string | string[]][] => {
+    console.log('BEFORE LOOP', {
+      pagePath,
+      pathname,
+      appPaths,
+      normalizedAppPaths,
+    })
     const matched: Record<string, string | string[]> = {}
     let existingChildrenPath: string | undefined
     for (const appPath of normalizedAppPaths) {
       if (appPath.startsWith(pathname + '/')) {
         const rest = appPath.slice(pathname.length + 1).split('/')
+        // exclude groups
+        // .filter((segment) => !/^\(.+\)$/.test(segment))
+
+        console.log('IN LOOP', {
+          appPath,
+          existingChildrenPath,
+          matchedChildren: matched.children,
+          rest,
+        })
 
         // It is the actual page, mark it specially.
         if (rest.length === 1 && rest[0] === 'page') {
@@ -571,12 +586,14 @@ const nextAppLoader: AppLoader = async function nextAppLoader() {
             // as that should be matched to the `children` slot. Instead, we use an array, to signal to `createSubtreePropsFromSegmentPath`
             // that it needs to recursively fill in the loader tree code for the parallel route at the appropriate levels.
             matched[rest[0]] = [PAGE_SEGMENT]
+            console.log('continue is parallel route page', matched)
             continue
           }
           // If it was a parallel route but we weren't able to find the page segment (ie, maybe the page is nested further)
           // we first insert a special marker to ensure that we still process layout/default/etc at the slot level prior to continuing
           // on to the page segment.
           matched[rest[0]] = [PARALLEL_CHILDREN_SEGMENT, ...rest.slice(1)]
+          console.log('continue is parallel route nested', matched)
           continue
         }
 
@@ -594,6 +611,7 @@ const nextAppLoader: AppLoader = async function nextAppLoader() {
             // We only need to throw an error if the duplicate segment was for a regular page.
             // For example, /app/(groupa)/page & /app/(groupb)/page is an error since it corresponds
             // with the same path.
+            console.log('continue isIncomingParallelPage')
             continue
           } else if (!hasCurrentParallelPage && !isIncomingParallelPage) {
             // Both the current `children` and the incoming `children` are regular pages.
@@ -605,6 +623,7 @@ const nextAppLoader: AppLoader = async function nextAppLoader() {
 
         existingChildrenPath = appPath
         matched.children = rest[0]
+        console.log('end of loop', matched)
       }
     }
 

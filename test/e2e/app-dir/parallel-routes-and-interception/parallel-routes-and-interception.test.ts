@@ -893,7 +893,7 @@ describe('parallel-routes-and-interception with patching', () => {
     }
   })
 
-  it('should gracefully handle when two page segments match the `children` parallel slot', async () => {
+  it.only('should gracefully handle when two page segments match the `children` parallel slot', async () => {
     await next.patchFile(
       'app/parallel/nested-2/page.js',
       outdent`

@@ -567,9 +567,12 @@ export async function createEntrypoints(
         getPageFromPath(actualPath, pageExtensions).replace(APP_DIR_ALIAS, '')
       )
     }
+    console.log({ appPaths, appPathsPerRoute })
 
     // TODO: find a better place to do this
+    // console.log('appPathsPerRoute BEFORE normalize', appPathsPerRoute)
     normalizeCatchAllRoutes(appPathsPerRoute)
+    // console.log('appPathsPerRoute AFTER normalize', appPathsPerRoute)
 
     // Make sure to sort parallel routes to make the result deterministic.
     appPathsPerRoute = Object.fromEntries(
@@ -580,6 +583,10 @@ export async function createEntrypoints(
   const getEntryHandler =
     (mappings: MappedPages, pagesType: PAGE_TYPES): ((page: string) => void) =>
     async (page) => {
+      // console.log('getEntryHandler', page)
+      // if (page === '/parallel/(other)/nested-2/page') {
+      //   await new Promise((resolve) => setTimeout(resolve, 1000))
+      // }
       const bundleFile = normalizePagePath(page)
       const clientBundlePath = posix.join(pagesType, bundleFile)
       const serverBundlePath =
@@ -644,6 +651,7 @@ export async function createEntrypoints(
         onServer: () => {
           if (pagesType === 'app' && appDir) {
             const matchedAppPaths = appPathsPerRoute[normalizeAppPath(page)]
+            // console.log('onServer', page)
             server[serverBundlePath] = getAppEntry({
               page,
               name: serverBundlePath,
@@ -769,7 +777,10 @@ export async function createEntrypoints(
 
   return {
     client,
-    server,
+    server: Object.fromEntries(
+      // Object.entries(server).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      Object.entries(server)
+    ),
     edgeServer,
     middlewareMatchers,
   }

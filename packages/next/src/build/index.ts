@@ -1770,6 +1770,7 @@ export default async function build(
         const appPathsManifest = await readManifest<Record<string, string>>(
           path.join(distDir, SERVER_DIRECTORY, APP_PATHS_MANIFEST)
         )
+        // console.log({ appPathsManifest })
 
         for (const key in appPathsManifest) {
           appPathRoutes[key] = normalizeAppPath(key)
@@ -1961,6 +1962,8 @@ export default async function build(
           }
         }
 
+        console.log({ pageKeys, appPathRoutes, mappedAppPages })
+
         await Promise.all(
           Object.entries(pageKeys)
             .reduce<Array<{ pageType: keyof typeof pageKeys; page: string }>>(
@@ -1980,6 +1983,7 @@ export default async function build(
               []
             )
             .map(({ pageType, page }) => {
+              console.log('check-page', { page })
               const checkPageSpan = staticCheckSpan.traceChild('check-page', {
                 page,
               })
@@ -2038,6 +2042,8 @@ export default async function build(
                       (pageType === 'pages' ? pagesDir : appDir) || '',
                       pagePath
                     )
+
+                console.log('building page', { pagePath })
 
                 const staticInfo = pagePath
                   ? await getPageStaticInfo({
@@ -2758,7 +2764,8 @@ export default async function build(
             ]
 
             // Always sort the routes to get consistent output in manifests
-            getSortedRoutes(routes).forEach((route) => {
+            const sortedRoutes = getSortedRoutes(routes)
+            sortedRoutes.forEach((route) => {
               if (isDynamicRoute(page) && route === page) return
               if (route === UNDERSCORE_NOT_FOUND_ROUTE) return
 

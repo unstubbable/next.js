@@ -301,6 +301,12 @@ function checkExports(
 
 async function tryToReadFile(filePath: string, shouldThrow: boolean) {
   try {
+    // if (filePath.endsWith('parallel/nested-2/page.js')) {
+    //   await new Promise((resolve) => setTimeout(resolve, 100))
+    // }
+    if (filePath.endsWith('/app/collision/page.js')) {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    }
     return await fs.readFile(filePath, {
       encoding: 'utf8',
     })

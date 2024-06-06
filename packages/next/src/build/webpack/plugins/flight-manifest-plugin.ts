@@ -493,6 +493,10 @@ export class ClientReferenceManifestPlugin {
 
       const pagePath = pageName.replace(/%5F/g, '_')
       const pageBundlePath = normalizePagePath(pagePath.slice('app'.length))
+      console.log(
+        'creating client manifest',
+        'server/app' + pageBundlePath + '_' + CLIENT_REFERENCE_MANIFEST + '.js'
+      )
       assets[
         'server/app' + pageBundlePath + '_' + CLIENT_REFERENCE_MANIFEST + '.js'
       ] = new sources.RawSource(

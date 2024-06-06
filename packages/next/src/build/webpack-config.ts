@@ -2449,7 +2449,11 @@ export default async function getBaseWebpackConfig(
       }
       delete entry['main.js']
 
-      for (const name of Object.keys(entry).sort()) {
+      const entryNames = process.env.SORT_ENTRIES
+        ? Object.keys(entry).sort()
+        : Object.keys(entry)
+
+      for (const name of entryNames) {
         newEntry[name] = finalizeEntrypoint({
           value: entry[name],
           compilerType,
@@ -2457,6 +2461,8 @@ export default async function getBaseWebpackConfig(
           hasAppDir,
         })
       }
+
+      console.log({ entryNames })
 
       return newEntry
     }
