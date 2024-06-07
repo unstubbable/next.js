@@ -81,5 +81,6 @@
   "gitlens.advanced.blame.customArguments": [
     "--ignore-revs-file",
     "${workspaceRoot}/.git-blame-ignore-revs"
-  ]
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
