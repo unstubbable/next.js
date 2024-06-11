@@ -1292,6 +1292,11 @@ describe('required server files', () => {
       )
     )
     appPort = await findPort()
+
+    if (server) {
+      await killApp(server)
+    }
+
     server = await initNextServerScript(
       testServer,
       /- Local:/,
