@@ -775,6 +775,7 @@ export async function createEntrypoints(
 
   await Promise.all(promises)
 
+  // console.log({ server })
   return {
     client,
     server: Object.fromEntries(
